@@ -19,13 +19,17 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+button {
+    outline: none;
+}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	line-height: 1;
+    line-height: 1;
+    font-family: sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -42,7 +46,65 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+/* HEADER */
 header {
     height: 80px;
-    background-color: #E63946; 
+    background-color: #E63946;
+    display : flex;
+    justify-content: space-between; 
+    align-items: center;
+    border-bottom: 2px solid #1D3557;
+}
+header .logo {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+header p {
+    margin: 10px;
+    font-size: 30px;
+}
+
+/* MAIN */
+main {
+    position: relative;
+    background-color: #F1FAEE;
+    min-height: calc(100vh - 80px);
+}
+.registration {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+    max-width: 460px;
+    padding: 20px 14px;
+    margin: 0 auto;
+    border: 2px solid #1D3557;
+    font-size: 20px;
+}
+.registration h1 {
+    font-size: 32px;
+}
+.registration h1 + p {
+    margin: 20px auto;
+}
+
+.registration-block {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.registration-block .btn {
+    cursor: pointer;
+    min-width: 150px;
+    margin: 10px 0;
+    padding: 10px;
+    background: #A8DADC;
+    border: 2px solid #1D3557;
+}
+.registration-block .btn:hover {
+    background: transparent;
 }
