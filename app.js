@@ -1,5 +1,7 @@
 $(function(){
     const URL_API = "http://greenvelvet.alwaysdata.net/kwick/api/";
+    let userId,
+        userToken;
 
     function getApiPing(){
         $.ajax({
@@ -56,12 +58,16 @@ $(function(){
             dataType : "jsonp",
         })
         .done(function(response){
-            console.log("Connexion réussie")
-            let data = JSON.stringify(response);
-            console.log(data);
+            console.log(response.result)
+            userToken = response.result.token;
+            userId = response.result.id;
+
+            $(".logInContainer" ).hide( "slow", function() {
+                //toasted connexion réussie à rajouter response.result.message
+            });    
         })
         .fail(function(error){
-            console.log("Echec" + JSON.stringify(error));
+            console.log(error);
         });
     }
 
