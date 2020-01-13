@@ -87,9 +87,9 @@ $(function(){
         })
         .done(function(response){
             if(response.result.status === "done"){
-                let user = response.result.user;
-                for (let i = 0; i <= user.length; i++) {
-                    $("#users").append('<p>' + user[i] + '</p>'); // REVOIR PROBLEME DE DOUBLON AU CLIC
+                let users = response.result.user;
+                for (let i = 0; i < users.length; i++) {
+                    $("#users").append('<p>' + users[i] + '</p>'); // REVOIR PROBLEME DE DOUBLON AU CLIC
                 }
             }
             console.log(response.result);
@@ -103,6 +103,6 @@ $(function(){
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);
 
-    $('.usersList').on('click', usersList);
+    $('.users-list_icon').on('click', usersList);
 
 });

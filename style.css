@@ -144,11 +144,22 @@ main {
     padding: 10px 0;
 }
 
-/*USERSLIST*/
-.users-List {
-    
+/*MESSAGING*/
+.messaging {
+    height: calc(100vh - 80px);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
 }
-.usersList {
-    width: 50px;
+.users-list {
     height: 50px;
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.users-list_icon {
+    margin-right: 20px;
+    width: 30px;
+    height: 30px;
 }
