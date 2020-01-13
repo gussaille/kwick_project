@@ -65,8 +65,9 @@ $(function(){
             userId = response.result.id;
 
             $(".logInContainer" ).hide( "slow", function() {
-                //toasted connexion réussie à rajouter response.result.message
-            });    
+            //toasted connexion réussie à rajouter re       sponse.result.message
+            });
+            $('.messaging').css('display', 'flex'); 
         })
         .fail(function(error){
             console.log(error);
@@ -98,7 +99,6 @@ $(function(){
             console.log(error);
         });
     }
-
 
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);

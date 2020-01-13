@@ -40,7 +40,7 @@
                     <label for="password-signup">Mot de passe</label>
                     <input type="password" id="password-signup" placeholder="Mot de passe">
                 </div>
-                <button type="submit">Valider</button>
+                <button class="validate" type="submit">Valider</button>
             </form>
         </div> -->
 
@@ -55,7 +55,7 @@
                     <label for="password-login">Mot de passe</label>
                     <input type="password" id="password-login" placeholder="Mot de passe">
                 </div>
-                <button type="submit">Valider</button>
+                <button class="validate" type="submit">Valider</button>
             </form>
         </div>
 
@@ -69,13 +69,11 @@
 
             </div>
 
-            <div class="text-block">
-                <input class="message" type="text" placeholder="Écrire un message">
-                <button type="submit">Envoyer</button>
+            <div class="textField">
+                <input class="message" type="text" placeholder="Écrire un message" maxlength="140">
+                <img class="sendMessage" src="assets/img/send-icon.png" alt="Envoyer un message">
             </div>
         </div>
-
-        
     </main>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
