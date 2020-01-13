@@ -143,3 +143,12 @@ main {
     width: 100%;
     padding: 10px 0;
 }
+
+/*USERSLIST*/
+.users-List {
+    
+}
+.usersList {
+    width: 50px;
+    height: 50px;
+}

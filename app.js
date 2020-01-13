@@ -19,6 +19,7 @@ $(function(){
     }
     // getApiPing();
 
+    // INSCRIPTION
     function signUp(evt){
         evt.preventDefault();
 
@@ -43,6 +44,7 @@ $(function(){
         });
     }
 
+    // CONNEXION  
     function logIn(evt){
         evt.preventDefault();
 
@@ -58,7 +60,7 @@ $(function(){
             dataType : "jsonp",
         })
         .done(function(response){
-            console.log(response.result)
+            console.log(response.result);
             userToken = response.result.token;
             userId = response.result.id;
 
@@ -71,7 +73,36 @@ $(function(){
         });
     }
 
+    // Récupérer la liste des utilisateurs
+    function usersList(evt){
+        evt.preventDefault();
+        
+        const USERS_LIST = `${URL_API}/user/logged/${userToken}`;
+        console.log(USERS_LIST);
+    
+        $.ajax({
+            url: USERS_LIST,
+            method: "GET",
+            dataType : "jsonp",
+        })
+        .done(function(response){
+            if(response.result.status === "done"){
+                let user = response.result.user;
+                for (let i = 0; i <= user.length; i++) {
+                    $("#users").append('<p>' + user[i] + '</p>'); // REVOIR PROBLEME DE DOUBLON AU CLIC
+                }
+            }
+            console.log(response.result);
+        })
+        .fail(function(error){
+            console.log(error);
+        });
+    }
+
+
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);
+
+    $('.usersList').on('click', usersList);
 
 });
