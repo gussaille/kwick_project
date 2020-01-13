@@ -21,13 +21,44 @@
 
             <div class="registration-block">
                 <div class="login">
-                    <button class="btn">Se connecter</button>
+                    <button class="btn btn-login">Se connecter</button>
                 </div>
                 <div class="signup">
-                    <button class="btn">S'inscrire</button>
+                    <button class="btn btn-signup">S'inscrire</button>
                 </div>
             </div>
         </div>
+
+        <div class="signUpContainer">
+            <form class="form-signup">
+                <h2>Inscription</h2>
+                <div class="form-group">
+                    <label for="username-signup">Identifiant</label>
+                    <input type="text" id="username-signup" placeholder="Identifiant">
+                </div>
+                <div class="form-group">
+                    <label for="password-signup">Mot de passe</label>
+                    <input type="password" id="password-signup" placeholder="Mot de passe">
+                </div>
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+        
+        <div class="logInContainer">
+            <form class="form-login">
+                <h2>Connexion</h2>
+                <div class="form-group">
+                    <label for="username-login">Identifiant</label>
+                    <input type="text" id="username-login" placeholder="Identifiant">
+                </div>
+                <div class="form-group">
+                    <label for="password-login">Mot de passe</label>
+                    <input type="password" id="password-login" placeholder="Mot de passe">
+                </div>
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+        
     </main>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

@@ -72,10 +72,11 @@ main {
     min-height: calc(100vh - 80px);
 }
 .registration {
-    position: absolute;
-    top: 30%;
+    /* position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
+    display: none; /*       A DECOMMENTER £££££££££££££££££££££££££££££*/
     width: 90%;
     text-align: center;
     max-width: 460px;
@@ -107,4 +108,37 @@ main {
 }
 .registration-block .btn:hover {
     background: transparent;
+}
+.logInContainer, 
+.signUpContainer {
+    padding: 20px 0;
+    width: 90%;
+    margin: 0 auto;
+}
+.logInContainer form,
+.signUpContainer form {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.logInContainer form h2,
+.signUpContainer form h2{
+    font-size: 30px;
+}
+
+.logInContainer .form-group,
+.signUpContainer .form-group {
+    margin: 5px auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+.logInContainer .form-group input,
+.signUpContainer .form-group input {
+    margin: 5px 0;
+    width: 100%;
+    padding: 10px 0;
 }
