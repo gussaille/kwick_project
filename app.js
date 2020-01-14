@@ -51,7 +51,7 @@ $(function(){
         let loginUser = $('#username-login').val(),
             loginPw = $('#password-login').val();
         
-        const LOGIN_API = `${URL_API}/login/${loginUser}/${loginPw}`;
+        const LOGIN_API = `${URL_API}login/${loginUser}/${loginPw}`;
         console.log(LOGIN_API);
     
         $.ajax({
@@ -79,7 +79,7 @@ $(function(){
     function usersList(evt){
         evt.preventDefault();
         
-        const USERS_LIST = `${URL_API}/user/logged/${userToken}`;
+        const USERS_LIST = `${URL_API}user/logged/${userToken}`;
         console.log(USERS_LIST);
     
         $.ajax({
@@ -104,7 +104,7 @@ $(function(){
     function getMessages(){
         // evt.preventDefault();
         
-        const MESSAGES_API = `${URL_API}/talk/list/${userToken}/0`;
+        const MESSAGES_API = `${URL_API}talk/list/${userToken}/0`;
         console.log(MESSAGES_API);
     
         $.ajax({
@@ -127,8 +127,34 @@ $(function(){
         });
     }
 
+    function sendMessage(evt){
+        evt.preventDefault();
+        let sendMessage = $('.textField input').val();
+        const encodedMessage = encodeURI(sendMessage);
+
+        
+        const MESSAGES_TO_API = `${URL_API}say/${userToken}/${userId}/${encodedMessage}`;
+        console.log(MESSAGES_TO_API);
+    
+        $.ajax({
+            url: MESSAGES_TO_API,
+            method: "GET",
+            dataType : "jsonp",
+        })
+        .done(function(response){;
+            console.log(response);
+            getMessages();
+            //toasted message envoyé
+        })
+        .fail(function(error){
+            console.log(error);
+            //toasted "Le message doit comporter au moins un caractère"
+        });
+    }
+
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);
+    $('.sendMessage').on('click', sendMessage);
 
     $('.users-list_icon').on('click', usersList);
 });
