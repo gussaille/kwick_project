@@ -1,8 +1,9 @@
 $(function(){
     const URL_API = "http://greenvelvet.alwaysdata.net/kwick/api/";
     let userId,
-        userToken;
+        token;
 
+    // getApiPing();
     function getApiPing(){
         $.ajax({
             url: `${URL_API}ping`,
@@ -17,16 +18,15 @@ $(function(){
             console.log("Echec" + JSON.stringify(error));
         })
     }
-    // getApiPing();
 
     // INSCRIPTION
     function signUp(evt){
         evt.preventDefault();
-
-        let signUpUser = $('#username-signUp').val(),
-            signUpPw = $('#password-signUp').val();
+       
+        let signUpUser = $('#username-signup').val(),
+            signUpPw = $('#password-signup').val();
         
-        const SIGNUP_API = `${URL_API}/signup/${signUpUser}/${signUpPw}`;
+        const SIGNUP_API = `${URL_API}signup/${signUpUser}/${signUpPw}`;
         console.log(SIGNUP_API);
 
         $.ajax({
@@ -35,12 +35,19 @@ $(function(){
             dataType : "jsonp",
         })
         .done(function(response){
-            console.log("Inscription réussie")
-            let data = JSON.stringify(response);
-            console.log(data);
+            if(response.result.status === "done"){
+                console.log("Inscription réussie")
+                console.log(response);
+                let data = response.result;
+                token = data.token;
+                userId = data.id;
+                
+                const tokenStorage = window.localStorage.setItem("token", token);
+                const idStorage = window.localStorage.setItem("id", userId);
+            }
         })
         .fail(function(error){
-            console.log("Echec" + JSON.stringify(error));
+            console.log(error);
         });
     }
 
@@ -61,11 +68,9 @@ $(function(){
         })
         .done(function(response){
             console.log(response.result);
-            userToken = response.result.token;
-            userId = response.result.id;
 
             $(".logInContainer" ).hide( "slow", function() {
-            //toasted connexion réussie à rajouter re       sponse.result.message
+            //toasted connexion réussie à rajouter response.result.message
             });
             $('.messaging').css('display', 'flex'); 
             getMessages();
@@ -74,14 +79,34 @@ $(function(){
             console.log(error);
         });
     }
+    function logOut(){
+           
+        const LOGOUT_API = `${URL_API}logout/${token}/${userId}`;
+        console.log(LOGOUT_API);
+    
+        $.ajax({
+            url: LOGOUT_API,
+            method: "GET",
+            dataType : "jsonp",
+        })
+        .done(function(response){
+            console.log("déconnexion réussie");
+            console.log(response);
+        })
+        .fail(function(error){
+            console.log(error);
+        });
+    }
 
     // Récupérer la liste des utilisateurs
-    function usersList(evt){
-        evt.preventDefault();
+    function usersList(){
         
-        const USERS_LIST = `${URL_API}user/logged/${userToken}`;
+        const USERS_LIST = `${URL_API}user/logged/${token}`;
         console.log(USERS_LIST);
-    
+        let users;
+        let token_json = sessionStorage.getItem("token");
+        let tokenStore = JSON.parse(token_json);
+
         $.ajax({
             url: USERS_LIST,
             method: "GET",
@@ -89,12 +114,12 @@ $(function(){
         })
         .done(function(response){
             if(response.result.status === "done"){
-                let users = response.result.user;
+                users = response.result.user;
                 for (let i = 0; i < users.length; i++) {
-                    $("#users").append('<p>' + users[i] + '</p>'); // REVOIR PROBLEME DE DOUBLON AU CLIC
+                    $("#users").html('<p>' + users[i] + '</p>');
+                    console.log(users[i]);
                 }
             }
-            console.log(response.result);
         })
         .fail(function(error){
             console.log(error);
@@ -103,9 +128,9 @@ $(function(){
 
     function getMessages(){
         
-        const MESSAGES_API = `${URL_API}talk/list/${userToken}/0`;
+        const MESSAGES_API = `${URL_API}talk/list/${token}/0`;
         console.log(MESSAGES_API);
-    
+
         $.ajax({
             url: MESSAGES_API,
             method: "GET",
@@ -120,6 +145,8 @@ $(function(){
 
                 $('.chat').append('<div class="received"><p>' + messages[i].user_name + '</p><p>' + messages[i].content + '</p><p>' + date.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }) + '</p</div>');
             }
+            $('.chat').animate({ scrollTop: 20000000 }, "smooth");
+
         })
         .fail(function(error){
             console.log(error);
@@ -128,11 +155,10 @@ $(function(){
 
     function sendMessage(evt){
         evt.preventDefault();
+
         let sendMessage = $('.textField input').val();
         const encodedMessage = encodeURIComponent(sendMessage);
-
-        
-        const MESSAGES_TO_API = `${URL_API}say/${userToken}/${userId}/${encodedMessage}`;
+        const MESSAGES_TO_API = `${URL_API}say/${token}/${userId}/${encodedMessage}`;
         console.log(MESSAGES_TO_API);
     
         $.ajax({
@@ -148,6 +174,9 @@ $(function(){
         .fail(function(error){
             console.log(error);
             //toasted "Le message doit comporter au moins un caractère"
+        })
+        .always(function(){
+            $('.textField input').val("");
         });
     }
 
@@ -155,5 +184,9 @@ $(function(){
     $('.form-login').on('submit', logIn);
     $('.sendMessage').on('click', sendMessage);
 
-    $('.users-list_icon').on('click', usersList);
+    $('.users-list_icon').on('click', function(){
+        $("#users").toggle("slow", usersList);
+    });
+
+    $('.log-out').on('click', logOut);
 });
