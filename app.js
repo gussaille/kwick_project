@@ -36,7 +36,7 @@ $(function(){
         })
         .done(function(response){
             if(response.result.status === "done"){
-                console.log("Inscription réussie")
+                console.log("Inscription réussie");
                 console.log(response);
                 let data = response.result;
                 token = data.token;
@@ -60,6 +60,9 @@ $(function(){
         
         const LOGIN_API = `${URL_API}login/${loginUser}/${loginPw}`;
         console.log(LOGIN_API);
+
+        // token = window.localStorage.getItem("token");
+        // userId = window.localStorage.getItem('id');
     
         $.ajax({
             url: LOGIN_API,
@@ -67,13 +70,15 @@ $(function(){
             dataType : "jsonp",
         })
         .done(function(response){
-            console.log(response.result);
+            if(response.result.status === "done"){
+                console.log(response.result);
 
-            $(".logInContainer" ).hide( "slow", function() {
-            //toasted connexion réussie à rajouter response.result.message
-            });
-            $('.messaging').css('display', 'flex'); 
-            getMessages();
+                $(".logInContainer" ).hide( "slow", function() {
+                //toasted connexion réussie à rajouter response.result.message
+                });
+                $('.messaging').css('display', 'flex'); 
+                getMessages();
+            }
         })
         .fail(function(error){
             console.log(error);
@@ -83,6 +88,9 @@ $(function(){
            
         const LOGOUT_API = `${URL_API}logout/${token}/${userId}`;
         console.log(LOGOUT_API);
+        
+        token = window.localStorage.getItem("token");
+        userId = window.localStorage.getItem('id');
     
         $.ajax({
             url: LOGOUT_API,
@@ -90,8 +98,16 @@ $(function(){
             dataType : "jsonp",
         })
         .done(function(response){
-            console.log("déconnexion réussie");
-            console.log(response);
+            if(response.result.status === "done"){
+                console.log("déconnexion réussie");
+                console.log(response);
+                localStorage.removeItem('token');
+                localStorage.removeItem('id');
+                $('.registration').show("slow");
+                $('.signUpContainer').hide("slow");
+                $('.logInContainer').hide("slow");
+                $('.chat').hide("slow");
+            }
         })
         .fail(function(error){
             console.log(error);
@@ -137,16 +153,17 @@ $(function(){
             dataType : "jsonp",
         })
         .done(function(response){
-            console.log(response);
-            let messages = response.result.talk;
-            for( let i = 0; i < messages.length; i++){
-                let time = messages[i].timestamp;
-                date = new Date(time * 1000);
+            if(response.result.status === "done"){
+                console.log(response);
+                let messages = response.result.talk;
+                for( let i = 0; i < messages.length; i++){
+                    let time = messages[i].timestamp;
+                    date = new Date(time * 1000);
 
-                $('.chat').append('<div class="received"><p>' + messages[i].user_name + '</p><p>' + messages[i].content + '</p><p>' + date.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }) + '</p</div>');
+                    $('.chat').append('<div class="received"><p>' + messages[i].user_name + '</p><p>' + messages[i].content + '</p><p>' + date.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }) + '</p</div>');
+                }
+                $('.chat').animate({ scrollTop: 20000000 }, 10000);
             }
-            $('.chat').animate({ scrollTop: 20000000 }, "smooth");
-
         })
         .fail(function(error){
             console.log(error);
@@ -166,9 +183,11 @@ $(function(){
             method: "GET",
             dataType : "jsonp",
         })
-        .done(function(response){;
-            console.log(response);
-            getMessages();
+        .done(function(response){
+            if(response.result.status === "done"){
+                console.log(response);
+                getMessages();
+            }
             //toasted message envoyé
         })
         .fail(function(error){
