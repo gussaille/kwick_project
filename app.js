@@ -68,6 +68,7 @@ $(function(){
             //toasted connexion réussie à rajouter re       sponse.result.message
             });
             $('.messaging').css('display', 'flex'); 
+            getMessages();
         })
         .fail(function(error){
             console.log(error);
@@ -100,9 +101,34 @@ $(function(){
         });
     }
 
+    function getMessages(){
+        // evt.preventDefault();
+        
+        const MESSAGES_API = `${URL_API}/talk/list/${userToken}/0`;
+        console.log(MESSAGES_API);
+    
+        $.ajax({
+            url: MESSAGES_API,
+            method: "GET",
+            dataType : "jsonp",
+        })
+        .done(function(response){
+            console.log(response);
+            let messages = response.result.talk;
+            for( let i = 0; i < messages.length; i++){
+                let time = messages[i].timestamp;
+                date = new Date(time * 1000)
+
+                $('.chat').append('<div class="received"><p>' + messages[i].user_name + '</p><p>' + messages[i].content + '</p><p>' + date.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }) + '</p</div>');
+            }
+        })
+        .fail(function(error){
+            console.log(error);
+        });
+    }
+
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);
 
     $('.users-list_icon').on('click', usersList);
-
 });

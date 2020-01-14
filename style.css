@@ -171,7 +171,7 @@ main {
 
 }
 .users-list {
-    height: 50px;
+    height: 60px;
     border-bottom: 1px solid lightgrey;
     display: flex;
     align-items: center;
@@ -194,14 +194,33 @@ main {
     font-size: 18px;
     width: 78%;
     margin-left: 10px;
-    background: transparent;
     border: none;
 }
 .textField .sendMessage{
     position: absolute;
     right: 15px;
-    top: 15px;
-    width: 50px;
+    top: 10px;
+    width: 40px;
     height:auto;
 }
-
+.chat{
+    overflow-y: auto;
+}
+.received {
+    margin-left: 5px;
+    padding: 8px;
+    max-width: 200px;
+    background-color: lightskyblue;
+    border-radius: 16px;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.received p:first-child {
+    font-weight: bold;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+}
+.received p:last-child{
+    font-size: 12px;
+    text-align: right;
+}
