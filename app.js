@@ -102,7 +102,6 @@ $(function(){
     }
 
     function getMessages(){
-        // evt.preventDefault();
         
         const MESSAGES_API = `${URL_API}talk/list/${userToken}/0`;
         console.log(MESSAGES_API);
@@ -117,7 +116,7 @@ $(function(){
             let messages = response.result.talk;
             for( let i = 0; i < messages.length; i++){
                 let time = messages[i].timestamp;
-                date = new Date(time * 1000)
+                date = new Date(time * 1000);
 
                 $('.chat').append('<div class="received"><p>' + messages[i].user_name + '</p><p>' + messages[i].content + '</p><p>' + date.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }) + '</p</div>');
             }
@@ -130,7 +129,7 @@ $(function(){
     function sendMessage(evt){
         evt.preventDefault();
         let sendMessage = $('.textField input').val();
-        const encodedMessage = encodeURI(sendMessage);
+        const encodedMessage = encodeURIComponent(sendMessage);
 
         
         const MESSAGES_TO_API = `${URL_API}say/${userToken}/${userId}/${encodedMessage}`;
