@@ -34,7 +34,6 @@ $(function(){
             signUpPw = $('#password-signup').val();
         
         const SIGNUP_API = `${URL_API}signup/${signUpUser}/${signUpPw}`;
-        console.log(SIGNUP_API);
 
         $.ajax({
             url: SIGNUP_API,
@@ -57,7 +56,7 @@ $(function(){
             }
         })
         .fail(function(error){
-            console.log(error);
+            toasted.show("Veuilez renseigner des informations valides");
         });
     }
 
@@ -100,8 +99,7 @@ $(function(){
         })
         .fail(function(error){
             let err = error.statusText;
-            console.log(error)
-            console.log(err);
+            toasted.show("Identifiant et/ou mot de passe incorrect"); 
         });
     }
 
@@ -222,11 +220,11 @@ $(function(){
                 console.log(response);
                 getMessages();
             }
-            //toasted message envoyé
+            toasted.show("Message envoyé"); 
         })
         .fail(function(error){
             console.log(error);
-            //toasted "Le message doit comporter au moins un caractère"
+            toasted.show("Veuillez saisir au moins 1 caractère."); 
         })
         .always(function(){
             $('.textField input').val("");

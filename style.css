@@ -178,6 +178,7 @@ main {
 
 }
 #users {
+    display: none;
     width: 60% ;
     padding: 5px;
     max-height: 450px;
@@ -190,7 +191,6 @@ main {
     z-index: 9999;
     position: absolute;
     flex-direction: column;
-    display: flex;
 }
 #users h3 {
     font-size: 20px; 
@@ -280,4 +280,8 @@ main {
 .received p:last-child{
     font-size: 12px;
     text-align: right;
+}
+
+@media screen and (min-width: 800px){
+   
 }
