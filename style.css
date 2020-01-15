@@ -75,11 +75,10 @@ main {
     min-height: calc(100vh - 80px);
 }
 .registration {
-    /* position: absolute;
-    top: 50%;
+    position: absolute;
+    top: 40%;
     left: 50%;
-    transform: translate(-50%, -50%); */
-    display: none; /*       A DECOMMENTER £££££££££££££££££££££££££££££*/
+    transform: translate(-50%, -50%);
     width: 90%;
     text-align: center;
     max-width: 460px;
@@ -112,8 +111,10 @@ main {
 .registration-block .btn:hover {
     background: transparent;
 }
+
 .logInContainer, 
 .signUpContainer {
+    display: none;
     padding: 20px 0;
     width: 90%;
     max-width: 460px;
@@ -198,6 +199,10 @@ main {
     border: none;
 }
 .textField .sendMessage{
+   background: transparent;
+   border: none;
+}
+.sendMessage img {
     position: absolute;
     right: 15px;
     top: 15px;
@@ -218,6 +223,9 @@ main {
     border-radius: 16px;
     font-size: 16px;
     margin-bottom: 5px;
+}
+.received p {
+    word-wrap: break-word;
 }
 .received p:first-child {
     font-weight: bold;

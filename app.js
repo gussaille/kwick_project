@@ -42,8 +42,9 @@ $(function(){
                 token = data.token;
                 userId = data.id;
                 
-                const tokenStorage = window.localStorage.setItem("token", token);
                 const idStorage = window.localStorage.setItem("id", userId);
+                $('.logInContainer').show("slow");
+                $('.signUpContainer').hide("slow");
             }
         })
         .fail(function(error){
@@ -61,9 +62,6 @@ $(function(){
         const LOGIN_API = `${URL_API}login/${loginUser}/${loginPw}`;
         console.log(LOGIN_API);
 
-        // token = window.localStorage.getItem("token");
-        // userId = window.localStorage.getItem('id');
-    
         $.ajax({
             url: LOGIN_API,
             method: "GET",
@@ -71,7 +69,13 @@ $(function(){
         })
         .done(function(response){
             if(response.result.status === "done"){
-                console.log(response.result);
+                let data = response.result;
+                token = data.token;  
+                userId = data.id;  
+
+                const tokenStorage = window.localStorage.setItem("token", token);
+                const idStorage = window.localStorage.setItem("id", userId);
+
 
                 $(".logInContainer" ).hide( "slow", function() {
                 //toasted connexion réussie à rajouter response.result.message
@@ -84,6 +88,8 @@ $(function(){
             console.log(error);
         });
     }
+
+    // DECONNEXION
     function logOut(){
            
         const LOGOUT_API = `${URL_API}logout/${token}/${userId}`;
@@ -100,13 +106,13 @@ $(function(){
         .done(function(response){
             if(response.result.status === "done"){
                 console.log("déconnexion réussie");
-                console.log(response);
                 localStorage.removeItem('token');
                 localStorage.removeItem('id');
+
                 $('.registration').show("slow");
                 $('.signUpContainer').hide("slow");
                 $('.logInContainer').hide("slow");
-                $('.chat').hide("slow");
+                $('.messaging').hide("slow");
             }
         })
         .fail(function(error){
@@ -120,8 +126,6 @@ $(function(){
         const USERS_LIST = `${URL_API}user/logged/${token}`;
         console.log(USERS_LIST);
         let users;
-        let token_json = sessionStorage.getItem("token");
-        let tokenStore = JSON.parse(token_json);
 
         $.ajax({
             url: USERS_LIST,
@@ -162,7 +166,8 @@ $(function(){
 
                     $('.chat').append('<div class="received"><p>' + messages[i].user_name + '</p><p>' + messages[i].content + '</p><p>' + date.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }) + '</p</div>');
                 }
-                $('.chat').animate({ scrollTop: 20000000 }, 10000);
+                $(".chat").scrollTop($(".chat")[0].scrollHeight);
+
             }
         })
         .fail(function(error){
@@ -201,11 +206,20 @@ $(function(){
 
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);
-    $('.sendMessage').on('click', sendMessage);
-
+    $('.textField').on('submit', sendMessage);
+    $('.log-out').on('click', logOut);
     $('.users-list_icon').on('click', function(){
         $("#users").toggle("slow", usersList);
     });
 
-    $('.log-out').on('click', logOut);
+    //Home Connexion
+    $('.btn-login').on('click', () => {
+        $('.logInContainer').show("slow");
+        $('.registration').hide("slow");
+    });
+    //Home Inscription
+    $('.btn-signup').on('click', () => {
+        $('.signUpContainer').show("slow");
+        $('.registration').hide("slow");
+    });
 });
