@@ -171,6 +171,11 @@ main {
     display: none;
 
 }
+#users {
+    background-color: #FEFBFB;
+    top: 62px;
+    position: absolute;
+}
 .users-list {
     height: 60px;
     border-bottom: 1px solid lightgrey;

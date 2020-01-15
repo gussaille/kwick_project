@@ -82,6 +82,7 @@ $(function(){
                 });
                 $('.messaging').css('display', 'flex'); 
                 getMessages();
+                usersList();
             }
         })
         .fail(function(error){
@@ -136,7 +137,7 @@ $(function(){
             if(response.result.status === "done"){
                 users = response.result.user;
                 for (let i = 0; i < users.length; i++) {
-                    $("#users").html('<p>' + users[i] + '</p>');
+                    $("#users").append('<p>' + users[i] + '</p>');
                     console.log(users[i]);
                 }
             }
@@ -208,9 +209,11 @@ $(function(){
     $('.form-login').on('submit', logIn);
     $('.textField').on('submit', sendMessage);
     $('.log-out').on('click', logOut);
+    
     $('.users-list_icon').on('click', function(){
-        $("#users").toggle("slow", usersList);
+        $("#users").toggle("slow");
     });
+    
 
     //Home Connexion
     $('.btn-login').on('click', () => {
