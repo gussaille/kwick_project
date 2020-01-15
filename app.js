@@ -1,7 +1,13 @@
 $(function(){
     const URL_API = "http://greenvelvet.alwaysdata.net/kwick/api/";
     let userId,
-        token;
+        token,
+        toasted = new Toasted({ 
+        position : 'top-center',
+        theme : 'alive',
+        fullWidth : true,
+        duration: 2000
+    });
 
     // getApiPing();
     function getApiPing(){
@@ -16,8 +22,9 @@ $(function(){
         })
         .fail(function(error){
             console.log("Echec" + JSON.stringify(error));
-        })
+        });
     }
+
 
     // INSCRIPTION
     function signUp(evt){
@@ -43,6 +50,8 @@ $(function(){
                 userId = data.id;
                 
                 const idStorage = window.localStorage.setItem("id", userId);
+
+                toasted.show(data.message);
                 $('.logInContainer').show("slow");
                 $('.signUpContainer').hide("slow");
             }
@@ -51,6 +60,7 @@ $(function(){
             console.log(error);
         });
     }
+
 
     // CONNEXION  
     function logIn(evt){
@@ -72,23 +82,29 @@ $(function(){
                 let data = response.result;
                 token = data.token;  
                 userId = data.id;  
+                console.log(data);
 
                 const tokenStorage = window.localStorage.setItem("token", token);
                 const idStorage = window.localStorage.setItem("id", userId);
+                const usernameStorage = window.localStorage.setItem("username", loginUser);
 
 
                 $(".logInContainer" ).hide( "slow", function() {
-                //toasted connexion réussie à rajouter response.result.message
+                    toasted.show(data.message);
                 });
                 $('.messaging').css('display', 'flex'); 
                 getMessages();
                 usersList();
+                $('.log-out').show('slow');
             }
         })
         .fail(function(error){
-            console.log(error);
+            let err = error.statusText;
+            console.log(error)
+            console.log(err);
         });
     }
+
 
     // DECONNEXION
     function logOut(){
@@ -106,6 +122,7 @@ $(function(){
         })
         .done(function(response){
             if(response.result.status === "done"){
+                console.log(response);
                 console.log("déconnexion réussie");
                 localStorage.removeItem('token');
                 localStorage.removeItem('id');
@@ -114,6 +131,9 @@ $(function(){
                 $('.signUpContainer').hide("slow");
                 $('.logInContainer').hide("slow");
                 $('.messaging').hide("slow");
+                toasted.show("Déconnexion réussie");
+                $('.log-out').hide('slow');
+
             }
         })
         .fail(function(error){
@@ -121,7 +141,7 @@ $(function(){
         });
     }
 
-    // Récupérer la liste des utilisateurs
+    // GET USERS LIST
     function usersList(){
         
         const USERS_LIST = `${URL_API}user/logged/${token}`;
@@ -137,7 +157,7 @@ $(function(){
             if(response.result.status === "done"){
                 users = response.result.user;
                 for (let i = 0; i < users.length; i++) {
-                    $("#users").append('<p>' + users[i] + '</p>');
+                    $("#users").append('<div class="user"><img class="circle" src="assets/img/green-circle.png" alt="Utilisateur connecté"><p>' + users[i] + '</p></div>');
                     console.log(users[i]);
                 }
             }
@@ -147,10 +167,13 @@ $(function(){
         });
     }
 
+    // GET MESSAGES
     function getMessages(){
         
         const MESSAGES_API = `${URL_API}talk/list/${token}/0`;
         console.log(MESSAGES_API);
+        
+        const userStored = window.localStorage.getItem('username');
 
         $.ajax({
             url: MESSAGES_API,
@@ -160,15 +183,20 @@ $(function(){
         .done(function(response){
             if(response.result.status === "done"){
                 console.log(response);
+
                 let messages = response.result.talk;
                 for( let i = 0; i < messages.length; i++){
                     let time = messages[i].timestamp;
                     date = new Date(time * 1000);
-
+                    
+                    if(userStored == messages[i].user_name){
+                        
+                    $('.chat').append('<div class="sent received"><p>' + messages[i].user_name + '</p><p>' + messages[i].content + '</p><p>' + date.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }) + '</p</div>');
+                    } else {
                     $('.chat').append('<div class="received"><p>' + messages[i].user_name + '</p><p>' + messages[i].content + '</p><p>' + date.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }) + '</p</div>');
+                    }
                 }
                 $(".chat").scrollTop($(".chat")[0].scrollHeight);
-
             }
         })
         .fail(function(error){
@@ -210,17 +238,17 @@ $(function(){
     $('.textField').on('submit', sendMessage);
     $('.log-out').on('click', logOut);
     
+    // Display UsersList
     $('.users-list_icon').on('click', function(){
         $("#users").toggle("slow");
     });
     
-
-    //Home Connexion
+    // Home Connexion
     $('.btn-login').on('click', () => {
         $('.logInContainer').show("slow");
         $('.registration').hide("slow");
     });
-    //Home Inscription
+    // Home Inscription
     $('.btn-signup').on('click', () => {
         $('.signUpContainer').show("slow");
         $('.registration').hide("slow");
