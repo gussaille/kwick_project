@@ -67,11 +67,19 @@ header p {
     margin: 10px;
     font-size: 30px;
 }
-header .log-out, header .home {
+ header .log-out {
     width: 40px;
     margin-right: 15px;
     height: auto;
     display: none;
+    color: white;
+}
+header .home {
+    font-size: 30px;    
+    margin-right: 15px;
+    height: auto;
+    display: none;
+    color: white;
 }
 
 /* MAIN */
@@ -219,8 +227,7 @@ main {
 }
 .users-list_icon {
     margin-right: 20px;
-    width: 30px;
-    height: 30px;
+    font-size: 40px;
 }
 .textField{
     outline: none;
@@ -241,12 +248,11 @@ main {
    background: transparent;
    border: none;
 }
-.sendMessage img {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    width: 40px;
-    height:auto;
+.sendMessage .send-icon {
+    position: relative;
+    right: 20px;
+    top: 0;
+    font-size: 45px;
 }
 
 .chat{
@@ -280,6 +286,7 @@ main {
 .received p:last-child{
     font-size: 12px;
     text-align: right;
+    margin-top: 5px;
 }
 
 @media screen and (min-width: 800px){

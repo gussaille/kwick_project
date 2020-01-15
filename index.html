@@ -7,7 +7,6 @@
     <title>Kwick Project</title>
     <link rel="icon" type="image/png" href="assets/img/favicon.png" />
     <link rel="stylesheet" href="https://unpkg.com/toastedjs/dist/toasted.min.css">
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,7 +14,8 @@
         <img class="logo" src="assets/img/logo.png">
         <p>Kwick!</p>
         <img class="log-out" src="assets/img/logout.png" alt="Déconnexion" title="Se déconnecter">
-        <img class="home" src="assets/img/home.png" alt="Accueil" title="Accueil">
+        <!-- <img class="home" src="assets/img/home.png" alt="Accueil" title="Accueil"> -->
+        <i class="fas fa-home home"></i>
     </header>
 
     <main>
@@ -65,7 +65,7 @@
 
         <div class="messaging">
             <div class="users-list">
-                <img src="assets/img/users-icon.png" class="users-list_icon" alt="Liste des utilisateurs">
+                <i class="fas fa-user-friends users-list_icon" alt="Liste des utilisateurs" title="Liste des utilisateurs"></i>
                 <div id="users">
                     <h3>Liste des utilisateurs</h3>
                 </div>
@@ -77,12 +77,12 @@
 
             <form class="textField">
                 <input class="message" type="text" placeholder="Écrire un message" max>
-                <button type="submit" class="sendMessage"><img src="assets/img/send-icon.png" alt="Envoyer un message"></button>
+                <button type="submit" class="sendMessage"><i class="fab fa-telegram-plane send-icon"></i></button>
             </form>
         </div>
     </main>
 
-
+    <script src="assets/js/all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://unpkg.com/toastedjs/dist/toasted.min.js"></script>
 	<script src="app.js"></script>

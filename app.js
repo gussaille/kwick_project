@@ -21,7 +21,7 @@ $(function(){
             console.log(data);
         })
         .fail(function(error){
-            console.log("Echec" + JSON.stringify(error));
+            console.log(error);
         });
     }
 
@@ -94,6 +94,7 @@ $(function(){
                 $('.messaging').css('display', 'flex'); 
                 getMessages();
                 usersList();
+
                 $('.log-out').show();
                 $('.home').hide();
             }
