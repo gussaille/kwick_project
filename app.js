@@ -94,7 +94,8 @@ $(function(){
                 $('.messaging').css('display', 'flex'); 
                 getMessages();
                 usersList();
-                $('.log-out').show('slow');
+                $('.log-out').show();
+                $('.home').hide();
             }
         })
         .fail(function(error){
@@ -243,12 +244,21 @@ $(function(){
     
     // Home Connexion
     $('.btn-login').on('click', () => {
+        $('.home').show();
         $('.logInContainer').show("slow");
         $('.registration').hide("slow");
     });
     // Home Inscription
     $('.btn-signup').on('click', () => {
+        $('.home').show();
         $('.signUpContainer').show("slow");
         $('.registration').hide("slow");
+    });
+
+    $('.home').on('click', () => {
+        $('.logInContainer').hide("slow");
+        $('.signUpContainer').hide("slow");
+        $('.registration').show("slow");
+        $('.home').hide();
     });
 });

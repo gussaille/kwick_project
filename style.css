@@ -67,7 +67,7 @@ header p {
     margin: 10px;
     font-size: 30px;
 }
-header .log-out {
+header .log-out, header .home {
     width: 40px;
     margin-right: 15px;
     height: auto;
@@ -181,7 +181,7 @@ main {
     display: none;
     width: 60% ;
     padding: 5px;
-    max-height: 450px;
+    max-height: 380px;
     overflow-x: hidden;
     border-bottom: 1px solid lightgrey;
     border-left: 1px solid lightgrey;
