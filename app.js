@@ -254,6 +254,8 @@ $(function(){
     //         getMessages();
     //     }, 5000);
     // }
+
+    //récupération de la session user et affichage
     // function storage(){
     //     if(window.localStorage.getItem('username') && window.localStorage.getItem('id')){
     //         $('.logInContainer').hide();
@@ -271,7 +273,7 @@ $(function(){
     
     // Display UsersList
     $('.users-list_icon').on('click', () => {
-        $("#users").toggle("slow");
+        $("#users").toggle("slow", usersList);
     });
     
     // Home Connexion
