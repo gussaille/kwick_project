@@ -1,4 +1,5 @@
 $(function(){
+
     const URL_API = "http://greenvelvet.alwaysdata.net/kwick/api/";
     let userId,
         token,
@@ -6,10 +7,9 @@ $(function(){
         position : 'top-center',
         theme : 'alive',
         fullWidth : true,
-        duration: 2000
+        duration: 2000,
     });
 
-    // getApiPing();
     function getApiPing(){
         $.ajax({
             url: `${URL_API}ping`,
@@ -24,6 +24,7 @@ $(function(){
             console.log(error);
         });
     }
+    getApiPing();
 
 
     // INSCRIPTION
@@ -56,7 +57,7 @@ $(function(){
             }
         })
         .fail(function(error){
-            toasted.show("Veuilez renseigner des informations valides");
+            toasted.show("Veuilez remplir les deux champs");
         });
     }
 
@@ -86,21 +87,26 @@ $(function(){
                 const tokenStorage = window.localStorage.setItem("token", token);
                 const idStorage = window.localStorage.setItem("id", userId);
                 const usernameStorage = window.localStorage.setItem("username", loginUser);
-
+                const userStorage = window.localStorage.getItem("username");
 
                 $(".logInContainer" ).hide( "slow", function() {
                     toasted.show(data.message);
                 });
-                $('.messaging').css('display', 'flex'); 
-                getMessages();
-                usersList();
 
+                $('.messaging').css('display', 'flex'); 
                 $('.log-out').show();
                 $('.home').hide();
+                $('.users-list p').empty();
+                $('.users-list').append('<p>' + userStorage + '</p>');
+                getMessages();
+                usersList();
+            }
+            if(response.result.status === "failure"){
+                toasted.show(response.result.message); 
             }
         })
         .fail(function(error){
-            let err = error.statusText;
+            console.log(error);
             toasted.show("Identifiant et/ou mot de passe incorrect"); 
         });
     }
@@ -114,6 +120,7 @@ $(function(){
         
         token = window.localStorage.getItem("token");
         userId = window.localStorage.getItem('id');
+        userName = window.localStorage.getItem('username');
     
         $.ajax({
             url: LOGOUT_API,
@@ -124,15 +131,16 @@ $(function(){
             if(response.result.status === "done"){
                 console.log(response);
                 console.log("déconnexion réussie");
-                localStorage.removeItem('token');
-                localStorage.removeItem('id');
+                window.localStorage.removeItem('token');
+                window.localStorage.removeItem('id');
+                window.localStorage.removeItem('username');
 
                 $('.registration').show("slow");
                 $('.signUpContainer').hide("slow");
                 $('.logInContainer').hide("slow");
                 $('.messaging').hide("slow");
-                toasted.show("Déconnexion réussie");
                 $('.log-out').hide('slow');
+                toasted.show("Déconnexion réussie");
 
             }
         })
@@ -156,6 +164,7 @@ $(function(){
         .done(function(response){
             if(response.result.status === "done"){
                 users = response.result.user;
+                $('#users').empty();
                 for (let i = 0; i < users.length; i++) {
                     $("#users").append('<div class="user"><img class="circle" src="assets/img/green-circle.png" alt="Utilisateur connecté"><p>' + users[i] + '</p></div>');
                     console.log(users[i]);
@@ -169,8 +178,9 @@ $(function(){
 
     // GET MESSAGES
     function getMessages(){
-        
-        const MESSAGES_API = `${URL_API}talk/list/${token}/0`;
+        let timestamp = 0;
+
+        const MESSAGES_API = `${URL_API}talk/list/${token}/${timestamp}`;
         console.log(MESSAGES_API);
         
         const userStored = window.localStorage.getItem('username');
@@ -184,7 +194,12 @@ $(function(){
             if(response.result.status === "done"){
                 console.log(response);
 
-                let messages = response.result.talk;
+                let messages = response.result.talk,
+                    lastTimestamp = response.result.last_timestamp;
+                    
+                lastTimestamp = new Date(lastTimestamp * 1000);
+                console.log("Dernier message reçu le : " + lastTimestamp.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }));
+
                 for( let i = 0; i < messages.length; i++){
                     let time = messages[i].timestamp;
                     date = new Date(time * 1000);
@@ -233,13 +248,29 @@ $(function(){
         });
     }
 
+    // function refresh(){
+    //     setInterval(function() {
+    //         usersList();
+    //         getMessages();
+    //     }, 5000);
+    // }
+    // function storage(){
+    //     if(window.localStorage.getItem('username') && window.localStorage.getItem('id')){
+    //         $('.logInContainer').hide();
+    //         $('.signUpContainer').hide();
+    //         $('.registration').hide();
+    //         $('.messaging').show("slow");
+    //     }
+    // }
+    // storage();
+
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);
     $('.textField').on('submit', sendMessage);
     $('.log-out').on('click', logOut);
     
     // Display UsersList
-    $('.users-list_icon').on('click', function(){
+    $('.users-list_icon').on('click', () => {
         $("#users").toggle("slow");
     });
     
