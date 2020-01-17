@@ -1,6 +1,7 @@
 $(function(){
 
     const URL_API = "http://greenvelvet.alwaysdata.net/kwick/api/";
+
     let userId,
         token,
         toasted = new Toasted({ 
@@ -10,6 +11,7 @@ $(function(){
         duration: 2000,
     });
 
+    // Check API State
     function getApiPing(){
         $.ajax({
             url: `${URL_API}ping`,
@@ -253,7 +255,7 @@ $(function(){
     $('.textField').on('submit', sendMessage);
     $('.log-out').on('click', logOut);
     
-    // Refresh Messages onclick prefered as setInterval every 5s to prevent multiple call to API
+    // Refresh Messages onclick prefered as setInterval every 5s to prevent multiple unwanted call to API
     $('.refresh-btn').on('click',  function() {
         getMessages();
         $(".refresh-btn svg").toggleClass("refresh-rotation");
