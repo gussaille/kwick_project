@@ -165,7 +165,7 @@ $(function(){
         .done(function(response){
             if(response.result.status === "done"){
                 users = response.result.user;
-                $('#users').empty();
+                $('#users').empty(); //Empty userList to update
                 for (let i = 0; i < users.length; i++) {
                     $("#users").append('<div class="user"><img class="circle" src="assets/img/green-circle.png" alt="Utilisateur connecté"><p>' + users[i] + '</p></div>');
                     console.log(users[i]);
@@ -178,7 +178,7 @@ $(function(){
         });
     }
 
-    // GET MESSAGES
+    // GET MESSAGES function
     function getMessages(){
         let timestamp = 0;
 
@@ -247,13 +247,19 @@ $(function(){
             $('.textField input').val("");
         });
     }
-
-    $('.refresh-btn').on('click',  getMessages);
+    
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);
     $('.textField').on('submit', sendMessage);
     $('.log-out').on('click', logOut);
     
+    // Refresh Messages onclick
+    $('.refresh-btn').on('click',  function() {
+        getMessages();
+        $(".refresh-btn svg").toggleClass("refresh-rotation");
+        toasted.show("Mise à jour du chat !");
+    });
+
     // Display UsersList
     $('.users-list_icon').on('click', () => {
         $("#users").toggle("slow", usersList);
