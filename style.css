@@ -213,7 +213,8 @@ main {
 /*MESSAGING*/
 .messaging {
     position: relative;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 86px);
+    max-height: 700px;
     width: 100%;
     margin: 0 auto;
     max-width: 740px;

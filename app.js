@@ -43,8 +43,8 @@ $(function(){
         })
         .done(function(response){
             if(response.result.status === "done"){
-                console.log("Inscription réussie");
-                console.log(response);
+                // console.log("Inscription réussie");
+                // console.log(response);
                 let data = response.result;
                 token = data.token;
                 userId = data.id;
@@ -82,7 +82,7 @@ $(function(){
                 let data = response.result;
                 token = data.token;  
                 userId = data.id;  
-                console.log(data);
+                // console.log(data);
 
                 const tokenStorage = window.localStorage.setItem("token", token);
                 const idStorage = window.localStorage.setItem("id", userId);
@@ -106,7 +106,7 @@ $(function(){
             }
         })
         .fail(function(error){
-            console.log(error);
+            // console.log(error);
             toasted.show("Identifiant et/ou mot de passe incorrect"); 
         });
     }
@@ -129,8 +129,8 @@ $(function(){
         })
         .done(function(response){
             if(response.result.status === "done"){
-                console.log(response);
-                console.log("déconnexion réussie");
+                // console.log(response);
+                // console.log("déconnexion réussie");
                 window.localStorage.removeItem('token');
                 window.localStorage.removeItem('id');
                 window.localStorage.removeItem('username');
@@ -146,7 +146,7 @@ $(function(){
         })
         .fail(function(error){
             toasted.show("Une erreur est survenue");
-            console.log(error);
+            // console.log(error);
         });
     }
 
@@ -154,7 +154,7 @@ $(function(){
     function usersList(){
         
         const USERS_LIST = `${URL_API}user/logged/${token}`;
-        console.log(USERS_LIST);
+        // console.log(USERS_LIST);
         let users;
 
         $.ajax({
@@ -168,12 +168,12 @@ $(function(){
                 $('#users').empty(); //Empty userList to update
                 for (let i = 0; i < users.length; i++) {
                     $("#users").append('<div class="user"><img class="circle" src="assets/img/green-circle.png" alt="Utilisateur connecté"><p>' + users[i] + '</p></div>');
-                    console.log(users[i]);
+                    // console.log(users[i]);
                 }
             }
         })
         .fail(function(error){
-            console.log(error);
+            // console.log(error);
             toasted.show("Une erreur est survenue");
         });
     }
@@ -183,7 +183,7 @@ $(function(){
         let timestamp = 0;
 
         const MESSAGES_API = `${URL_API}talk/list/${token}/${timestamp}`;
-        console.log(MESSAGES_API);
+        // console.log(MESSAGES_API);
         
         const userStored = window.localStorage.getItem('username');
 
@@ -225,7 +225,7 @@ $(function(){
         let sendMessage = $('.textField input').val();
         const encodedMessage = encodeURIComponent(sendMessage);
         const MESSAGES_TO_API = `${URL_API}say/${token}/${userId}/${encodedMessage}`;
-        console.log(MESSAGES_TO_API);
+        // console.log(MESSAGES_TO_API);
     
         $.ajax({
             url: MESSAGES_TO_API,
@@ -234,13 +234,13 @@ $(function(){
         })
         .done(function(response){
             if(response.result.status === "done"){
-                console.log(response);
+                // console.log(response);
                 getMessages();
             }
             toasted.show("Message envoyé"); 
         })
         .fail(function(error){
-            console.log(error);
+            // console.log(error);
             toasted.show("Veuillez saisir au moins 1 caractère."); 
         })
         .always(function(){
@@ -253,7 +253,7 @@ $(function(){
     $('.textField').on('submit', sendMessage);
     $('.log-out').on('click', logOut);
     
-    // Refresh Messages onclick
+    // Refresh Messages onclick prefered as setInterval every 5s to prevent multiple call to API
     $('.refresh-btn').on('click',  function() {
         getMessages();
         $(".refresh-btn svg").toggleClass("refresh-rotation");
