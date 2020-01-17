@@ -57,7 +57,7 @@ $(function(){
             }
         })
         .fail(function(error){
-            toasted.show("Veuilez remplir les deux champs");
+            toasted.show("Veuillez remplir les deux champs");
         });
     }
 
@@ -145,6 +145,7 @@ $(function(){
             }
         })
         .fail(function(error){
+            toasted.show("Une erreur est survenue");
             console.log(error);
         });
     }
@@ -173,6 +174,7 @@ $(function(){
         })
         .fail(function(error){
             console.log(error);
+            toasted.show("Une erreur est survenue");
         });
     }
 
@@ -194,13 +196,10 @@ $(function(){
             if(response.result.status === "done"){
                 console.log(response);
 
-                let messages = response.result.talk,
-                    lastTimestamp = response.result.last_timestamp;
-                    
-                lastTimestamp = new Date(lastTimestamp * 1000);
-                console.log("Dernier message reçu le : " + lastTimestamp.toLocaleDateString([], { year: "2-digit", month: "2-digit", day: "numeric", hour: '2-digit', minute: '2-digit' }));
+                let messages = response.result.talk;
 
                 for( let i = 0; i < messages.length; i++){
+
                     let time = messages[i].timestamp;
                     date = new Date(time * 1000);
                     
@@ -216,6 +215,7 @@ $(function(){
         })
         .fail(function(error){
             console.log(error);
+            toasted.show("Une erreur est survenue");
         });
     }
 
@@ -248,24 +248,7 @@ $(function(){
         });
     }
 
-    // function refresh(){
-    //     setInterval(function() {
-    //         usersList();
-    //         getMessages();
-    //     }, 5000);
-    // }
-
-    //récupération de la session user et affichage
-    // function storage(){
-    //     if(window.localStorage.getItem('username') && window.localStorage.getItem('id')){
-    //         $('.logInContainer').hide();
-    //         $('.signUpContainer').hide();
-    //         $('.registration').hide();
-    //         $('.messaging').show("slow");
-    //     }
-    // }
-    // storage();
-
+    $('.refresh-btn').on('click',  getMessages);
     $('.form-signup').on('submit', signUp);
     $('.form-login').on('submit', logIn);
     $('.textField').on('submit', sendMessage);

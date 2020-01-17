@@ -220,6 +220,21 @@ main {
     display: none;
 
 }
+.refresh-btn {
+    font-size: 15px;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    border-radius: 60%;
+    top: 9vh;
+    border: 1px solid rgb(235, 235, 235);
+    background-color: rgba(254, 251, 251, 0.6);
+    padding: 20px;
+}
+
+.refresh-btn:active {
+    animation: rotation 1s ease-in; /* edit animation */
+}
 #users {
     display: none;
     width: 60% ;
@@ -345,13 +360,23 @@ main {
 
 @keyframes rotation{
     from {
-        transform: rotate(0);
+        position: absolute;
+        transform: translateX(-50%) rotate(0deg);
     }
     to {
-        transform: rotate(360deg);
+        position: absolute;
+        transform: translateX(-50%) rotate(360deg);
+        left: 50%;
     }
 }
-
+@keyframes fade  {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 @media screen and (min-width: 800px){
    
 }
